@@ -1,16 +1,23 @@
 require 'formula'
 
 class Zsh < Formula
-  homepage 'http://www.zsh.org/'
   url 'http://sourceforge.net/projects/zsh/files/zsh-dev/4.3.17/zsh-4.3.17.tar.gz'
+  head 'git://zsh.git.sf.net/gitroot/zsh/zsh', :using => :git
+  homepage 'http://www.zsh.org/'
   md5 '9074077945550d6684ebe18b3b167d52'
+  version "4.3.17"
 
   depends_on 'gdbm'
   depends_on 'pcre'
+  depends_on 'yodl' if ARGV.build_head?
 
   skip_clean :all
 
   def install
+    if ARGV.build_head?
+      system "./Util/preconfig"
+    end
+
     system "./configure", "--prefix=#{prefix}",
                           "--disable-etcdir",
                           "--enable-fndir=#{share}/zsh/functions",
@@ -28,6 +35,10 @@ class Zsh < Formula
     # Do not version installation directories.
     inreplace ["Makefile", "Src/Makefile"],
       "$(libdir)/$(tzsh)/$(VERSION)", "$(libdir)"
+
+    if ARGV.build_head?
+      system "make"
+    end
 
     system "make install"
   end
