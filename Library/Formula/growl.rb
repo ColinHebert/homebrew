@@ -14,8 +14,11 @@ class Growl < Formula
   homepage 'http://www.growl.info/'
   sha1 '8e7118cee3f992aba4a3f2b80d1c446d5df067cb'
   version '1.3.3'
-  
-  depends_on 'osx/plist' => :ruby unless ARGV.include? "--disable-hardware"
+
+  unless ARGV.include? "--disable-hardware"
+    depends_on 'bundler' => :ruby
+    depends_on 'net/http/persistent' => :ruby
+  end
 
   def options
     [
