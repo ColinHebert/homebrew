@@ -31,6 +31,9 @@ class Growl < Formula
   def patches
     p = []
 
+    # Disable warnings as errors
+    p << "https://raw.github.com/gist/2129745/"
+
     unless ARGV.include? "--enable-codesign"
       # Disable code sign in Growl.app
       p << "https://raw.github.com/gist/1374159/"
