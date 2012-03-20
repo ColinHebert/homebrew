@@ -54,7 +54,7 @@ class Growl < Formula
       p.mkpath
       ISO8601ParserUnparser.new.brew{p.install Dir['*']}
     end
-    
+
     ohai "You need to have the developer certificate already present in Keychain" if ARGV.include? "--enable-codesign"
 
     buildPath = Pathname.getwd+"build"
