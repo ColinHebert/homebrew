@@ -17,7 +17,7 @@ class Growl < Formula
 
   unless ARGV.include? "--disable-hardware"
     depends_on 'bundler' => :ruby
-    depends_on 'net/http/persistent' => :ruby
+    depends_on LanguageModuleDependency.new :ruby, 'net-http-persistent', 'net/http/persistent'
   end
 
   def options
