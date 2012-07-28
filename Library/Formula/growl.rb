@@ -1,24 +1,43 @@
 require 'formula'
 
 class ISO8601ParserUnparser < Formula
-  url 'https://bitbucket.org/boredzo/iso-8601-parser-unparser/downloads/ISO-8601-parser-0.6.zip'
-  head 'https://bitbucket.org/boredzo/iso-8601-parser-unparser', :using => :hg
-  homepage 'http://boredzo.org/iso8601dateformatter/'
+  url 'https://github.com/growl/iso-8601-parser-unparser/zipball/0.6'
+  head 'git://github.com/growl/iso-8601-parser-unparser.git', :using => :git
+  homepage 'https://github.com/growl/iso-8601-parser-unparser'
   sha1 '3f1228d71f3375c038805850ee468688d65d49a4'
   version '0.6'
 end
 
+class SGHotKeysLib < Formula
+  url 'https://github.com/growl/SGHotKeysLib/zipball/1.2'
+  head 'https://github.com/growl/SGHotKeysLib/tags', :using => :git
+  homepage 'https://github.com/growl/SGHotKeysLib'
+  sha1 '7862af5f579b5098fdc13068e4213be5c9727fde'
+  version '1.2'
+end
+
+class CocoaSyncSocket < Formula
+  # Tag from the parent repository
+  url 'https://github.com/robbiehanson/CocoaAsyncSocket/tarball/7.1'
+  head 'git://github.com/growl/CocoaAsyncSocket.git  ', :using => :git
+  homepage 'http://github.com/growl/CocoaAsyncSocket'
+  sha1 '3b3c977fc0d7c1de7816c5cfd39e5d1f2d247aa1'
+  version '7.1'
+end
+
+class ShortcutRecorder < Formula
+  url 'http://shortcutrecorder.googlecode.com/svn/trunk/', :revision => 85
+  head 'http://shortcutrecorder.googlecode.com/svn/trunk/', :using => :svn
+  homepage 'http://wafflesoftware.net/shortcut/'
+  version 'r85'
+end
+
 class Growl < Formula
-  url 'http://growl.info/hg/growl/archive/c9bc72de2621.tar.bz2'
+  url  'http://growl.info/hg/growl/archive/234c34a9d09b.tar.bz2'
   head 'https://code.google.com/p/growl/', :using => :hg
   homepage 'http://www.growl.info/'
-  sha1 '8e7118cee3f992aba4a3f2b80d1c446d5df067cb'
-  version '1.3.3'
-
-  unless ARGV.include? "--disable-hardware"
-    depends_on 'bundler' => :ruby
-    depends_on LanguageModuleDependency.new :ruby, 'net-http-persistent', 'net/http/persistent'
-  end
+  sha1 'e32eb36d05e37bea792bbcc8849074003d97e618'
+  version '1.4'
 
   def options
     [
@@ -52,7 +71,19 @@ class Growl < Formula
     unless ARGV.build_head?
       p = (Pathname.getwd+'external_dependencies'+'iso8601parser')
       p.mkpath
-      ISO8601ParserUnparser.new.brew{p.install Dir['*']}
+      ISO8601ParserUnparser.new('ISO8601ParserUnparser').brew{p.install Dir['*']}
+
+      p = (Pathname.getwd+'external_dependencies'+'SGHotKeysLib')
+      p.mkpath
+      SGHotKeysLib.new('SGHotKeysLib').brew{p.install Dir['*']}
+
+      p = (Pathname.getwd+'external_dependencies'+'cocoaasyncsocket')
+      p.mkpath
+      CocoaSyncSocket.new('CocoaSyncSocket').brew{p.install Dir['*']}
+
+      p = (Pathname.getwd+'external_dependencies'+'shortcutrecorder')
+      p.mkpath
+      ShortcutRecorder.new('ShortcutRecorder').brew{p.install Dir['*']}
     end
 
     ohai "You need to have the developer certificate already present in Keychain" if ARGV.include? "--enable-codesign"
